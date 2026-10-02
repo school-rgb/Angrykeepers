@@ -1,0 +1,187 @@
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANGRYKEEPERS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet">
+    <style>
+        .blocky-text {
+            font-family: 'Rubik Mono One', cursive, sans-serif;
+            color: #ffffff;
+            -webkit-text-stroke: 3px #ef4444;
+            paint-order: stroke fill;
+            text-shadow: 0 8px 16px rgba(0, 0, 0, 0.8), 3px 3px 0px #7f1d1d;
+        }
+        @media (min-width: 768px) {
+            .blocky-text {
+                -webkit-text-stroke: 4px #ef4444;
+            }
+        }
+    </style>
+</head>
+<body class="w-screen h-screen overflow-hidden bg-black select-none font-sans">
+
+    <!-- Fullscreen Background Image -->
+    <img id="bg-img" 
+         src="https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/5819c412-68d6-4491-b872-0a52c97a3ef9.jpeg" 
+         alt="Background" 
+         class="absolute inset-0 w-full h-full object-cover z-0">
+
+    <!-- Character Display Canvas (Middle Right) -->
+    <div class="absolute right-6 sm:right-12 md:right-20 top-1/2 -translate-y-1/2 z-10 w-[42vw] max-w-[480px] max-h-[70vh] aspect-square flex items-center justify-center pointer-events-none">
+        <canvas id="char-canvas" class="w-full h-full object-contain"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('char-canvas');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        const charUrl = "https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/2963f7ee-bab7-4281-8575-56b95ce9d6e0__1_-removebg-preview.png";
+
+        // Fixed processing parameters
+        const thresholdVal = 238;
+        const featherVal = 1;
+
+        // Load image securely via blob to bypass CORS restrictions
+        async function loadAndProcessImage() {
+            let img = new Image();
+            img.crossOrigin = "Anonymous";
+
+            try {
+                const response = await fetch(charUrl);
+                const blob = await response.blob();
+                const objectURL = URL.createObjectURL(blob);
+                img.src = objectURL;
+            } catch (err) {
+                // Fallback to direct URL if fetch fails
+                img.src = charUrl;
+            }
+
+            img.onload = () => {
+                canvas.width = img.naturalWidth || 600;
+                canvas.height = img.naturalHeight || 600;
+
+                // Draw initial image
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, 0, 0);
+
+                // Run edge-connected flood fill automatically
+                processOuterFloodFill();
+            };
+        }
+
+        function processOuterFloodFill() {
+            const w = canvas.width;
+            const h = canvas.height;
+            const imgData = ctx.getImageData(0, 0, w, h);
+            const data = imgData.data;
+
+            const visited = new Uint8Array(w * h);
+            const queue = new Int32Array(w * h);
+            let head = 0;
+            let tail = 0;
+
+            // Helper to check if a pixel is outer background white/bright
+            function isBackgroundPixel(idx) {
+                const r = data[idx];
+                const g = data[idx + 1];
+                const b = data[idx + 2];
+                const a = data[idx + 3];
+
+                if (a < 15) return true; // Already transparent
+                return (r >= thresholdVal && g >= thresholdVal && b >= thresholdVal);
+            }
+
+            // Seed BFS queue with top, bottom, left, and right borders
+            for (let x = 0; x < w; x++) {
+                // Top edge
+                let idxTop = (0 * w + x) * 4;
+                if (isBackgroundPixel(idxTop)) {
+                    visited[0 * w + x] = 1;
+                    queue[tail++] = 0 * w + x;
+                }
+                // Bottom edge
+                let idxBot = ((h - 1) * w + x) * 4;
+                if (isBackgroundPixel(idxBot)) {
+                    visited[(h - 1) * w + x] = 1;
+                    queue[tail++] = (h - 1) * w + x;
+                }
+            }
+
+            for (let y = 0; y < h; y++) {
+                // Left edge
+                let idxLeft = (y * w + 0) * 4;
+                if (!visited[y * w + 0] && isBackgroundPixel(idxLeft)) {
+                    visited[y * w + 0] = 1;
+                    queue[tail++] = y * w + 0;
+                }
+                // Right edge
+                let idxRight = (y * w + (w - 1)) * 4;
+                if (!visited[y * w + (w - 1)] && isBackgroundPixel(idxRight)) {
+                    visited[y * w + (w - 1)] = 1;
+                    queue[tail++] = y * w + (w - 1);
+                }
+            }
+
+            // Breadth-First Search (BFS) starting strictly from outer edges
+            while (head < tail) {
+                const pos = queue[head++];
+                const cx = pos % w;
+                const cy = Math.floor(pos / w);
+
+                // Mark pixel as transparent
+                const pixelIdx = pos * 4;
+                data[pixelIdx + 3] = 0;
+
+                // Check 4 adjacent neighbors
+                const neighbors = [
+                    [cx + 1, cy],
+                    [cx - 1, cy],
+                    [cx, cy + 1],
+                    [cx, cy - 1]
+                ];
+
+                for (let i = 0; i < 4; i++) {
+                    const nx = neighbors[i][0];
+                    const ny = neighbors[i][1];
+
+                    if (nx >= 0 && nx < w && ny >= 0 && ny < h) {
+                        const nPos = ny * w + nx;
+                        if (!visited[nPos]) {
+                            visited[nPos] = 1;
+                            const nIdx = nPos * 4;
+                            if (isBackgroundPixel(nIdx)) {
+                                queue[tail++] = nPos;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Optional subtle edge feathering for smooth anti-aliasing
+            if (featherVal > 0) {
+                for (let y = 1; y < h - 1; y++) {
+                    for (let x = 1; x < w - 1; x++) {
+                        const pos = y * w + x;
+                        const idx = pos * 4;
+                        if (data[idx + 3] > 0 && !visited[pos]) {
+                            // Check if adjacent to an erased background pixel
+                            if (visited[pos - 1] || visited[pos + 1] || visited[pos - w] || visited[pos + w]) {
+                                data[idx + 3] = Math.floor(data[idx + 3] * 0.4);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Update canvas with cleaned pixel data
+            ctx.putImageData(imgData, 0, 0);
+        }
+
+        // Initialize on page load
+        window.onload = loadAndProcessImage;
+    </script>
+</body>
+</html>
