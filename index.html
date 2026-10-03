@@ -47,7 +47,7 @@
             font-family: 'AngryKeepersSmallFont', sans-serif;
         }
 
-        /* Entire Website Clean Scrollbar (No inner box clipping) */
+        /* Clean Scrollbar */
         ::-webkit-scrollbar {
             display: none;
             width: 0px;
@@ -60,31 +60,31 @@
 </head>
 <body class="w-full min-h-screen bg-black select-none relative overflow-x-hidden overflow-y-auto">
 
-    <!-- Fixed Fullscreen Background Image (Stays in place when website scrolls) -->
+    <!-- Fixed Fullscreen Background Image -->
     <img id="bg-img" 
          src="https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/5819c412-68d6-4491-b872-0a52c97a3ef9.jpeg" 
          alt="Background" 
          class="fixed inset-0 w-full h-full object-cover z-0 -scale-y-100 pointer-events-none">
 
-    <!-- Top Navigation Bar (Fixed Header) -->
+    <!-- Top Navigation Bar -->
     <header class="fixed top-0 inset-x-0 h-28 bg-gradient-to-b from-black/95 via-black/70 to-transparent z-40 flex items-start justify-between px-6 sm:px-12 md:px-16 lg:px-24 pt-4 pointer-events-auto">
         <div class="flex items-center gap-4 sm:gap-6">
             <span class="small-custom-text text-white text-base sm:text-lg font-bold tracking-wider uppercase drop-shadow">Links</span>
             <div class="flex items-center gap-2 sm:gap-3">
-                <!-- Home Button (Red) -->
+                <!-- Home Button -->
                 <button onclick="showHomeView()" class="px-3 py-1.5 bg-red-600/90 hover:bg-red-500 text-white rounded-md text-xs sm:text-sm font-medium transition backdrop-blur-sm border border-red-400/40 shadow-lg flex items-center gap-1.5 cursor-pointer">
                     Home
                 </button>
 
-                <!-- Proxy Mirrors Button (With Chain Icon & Opens Full-Screen UI Menu) -->
-                <button onclick="openMenu('PROXY links')" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-md text-xs sm:text-sm font-medium transition backdrop-blur-sm border border-white/20 flex items-center gap-1.5 cursor-pointer">
-                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                <!-- Proxy Mirrors Button with Updated PNG Icon -->
+                <button onclick="openMenu('PROXY LINKS')" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-md text-xs sm:text-sm font-medium transition backdrop-blur-sm border border-white/20 flex items-center gap-1.5 cursor-pointer">
+                    <img src="https://img.icons8.com/?size=100&id=PUtwHEklyzwP&format=png&color=FFFFFF" alt="Chain Icon" class="w-4 h-4 object-contain">
                     Proxy links
                 </button>
 
-                <!-- Unblocker Hub Button (With Chain Icon & Opens Full-Screen UI Menu) -->
+                <!-- Unblocker Hub Button with Updated PNG Icon -->
                 <button onclick="openMenu('UNBLOCKER HUB')" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-md text-xs sm:text-sm font-medium transition backdrop-blur-sm border border-white/20 flex items-center gap-1.5 cursor-pointer">
-                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                    <img src="https://img.icons8.com/?size=100&id=PUtwHEklyzwP&format=png&color=FFFFFF" alt="Chain Icon" class="w-4 h-4 object-contain">
                     Unblocker Hub
                 </button>
             </div>
@@ -114,7 +114,7 @@
         </div>
     </main>
 
-    <!-- FULL-SCREEN MENU VIEW (Website Page Scroll Strategy - No Internal Box Scroll & No Cutoff Boxes) -->
+    <!-- FULL-SCREEN MENU VIEW -->
     <section id="menu-view" class="hidden min-h-screen w-full relative z-20 flex-col items-center justify-start pt-32 pb-16 px-4 sm:px-8 md:px-12 opacity-0 transition-opacity duration-300 pointer-events-auto">
         
         <!-- Top Middle Header Title -->
@@ -124,116 +124,129 @@
             </h1>
         </div>
 
-        <!-- Full Page 5-Column Grid -->
+        <!-- Grid of Rectangular Boxes -->
         <div class="w-full max-w-6xl">
-            <div class="grid grid-cols-5 gap-3 sm:gap-4 md:gap-5">
-
-                <!-- Box 1 -->
-                <button onclick="selectThing('Unblocker Hub')" class="group flex flex-col items-center justify-between bg-zinc-900/80 hover:bg-zinc-800/90 border-2 border-zinc-700/80 hover:border-red-500 rounded-xl p-3 backdrop-blur-md transition-all transform hover:-translate-y-1 shadow-lg hover:shadow-red-500/20 cursor-pointer">
-                    <div class="w-full aspect-square bg-zinc-950/80 rounded-lg border border-zinc-700/60 flex items-center justify-center overflow-hidden p-2 group-hover:border-red-400">
-                        <img src="https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/2963f7ee-bab7-4281-8575-56b95ce9d6e0__1_-removebg-preview.png" alt="Unblocker Hub" class="w-full h-full object-contain filter drop-shadow">
-                    </div>
-                    <span class="small-custom-text text-white text-xs sm:text-sm font-bold tracking-wide mt-2 text-center line-clamp-1 group-hover:text-red-400">
-                        Unblocker Hub
-                    </span>
-                </button>
-
-                <!-- Box 2 -->
-                <button onclick="selectThing('Proxy links')" class="group flex flex-col items-center justify-between bg-zinc-900/80 hover:bg-zinc-800/90 border-2 border-zinc-700/80 hover:border-red-500 rounded-xl p-3 backdrop-blur-md transition-all transform hover:-translate-y-1 shadow-lg hover:shadow-red-500/20 cursor-pointer">
-                    <div class="w-full aspect-square bg-zinc-950/80 rounded-lg border border-zinc-700/60 flex items-center justify-center overflow-hidden p-2 group-hover:border-red-400">
-                        <img src="https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/2963f7ee-bab7-4281-8575-56b95ce9d6e0__1_-removebg-preview.png" alt="Proxy links" class="w-full h-full object-contain filter drop-shadow">
-                    </div>
-                    <span class="small-custom-text text-white text-xs sm:text-sm font-bold tracking-wide mt-2 text-center line-clamp-1 group-hover:text-red-400">
-                        Proxy links
-                    </span>
-                </button>
-
-                <!-- Box 3 -->
-                <button onclick="selectThing('Ultra Speed')" class="group flex flex-col items-center justify-between bg-zinc-900/80 hover:bg-zinc-800/90 border-2 border-zinc-700/80 hover:border-red-500 rounded-xl p-3 backdrop-blur-md transition-all transform hover:-translate-y-1 shadow-lg hover:shadow-red-500/20 cursor-pointer">
-                    <div class="w-full aspect-square bg-zinc-950/80 rounded-lg border border-zinc-700/60 flex items-center justify-center overflow-hidden p-2 group-hover:border-red-400">
-                        <img src="https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/2963f7ee-bab7-4281-8575-56b95ce9d6e0__1_-removebg-preview.png" alt="Ultra Speed" class="w-full h-full object-contain filter drop-shadow">
-                    </div>
-                    <span class="small-custom-text text-white text-xs sm:text-sm font-bold tracking-wide mt-2 text-center line-clamp-1 group-hover:text-red-400">
-                        Ultra Speed
-                    </span>
-                </button>
-
-                <!-- Box 4 -->
-                <button onclick="selectThing('Stealth Proxy')" class="group flex flex-col items-center justify-between bg-zinc-900/80 hover:bg-zinc-800/90 border-2 border-zinc-700/80 hover:border-red-500 rounded-xl p-3 backdrop-blur-md transition-all transform hover:-translate-y-1 shadow-lg hover:shadow-red-500/20 cursor-pointer">
-                    <div class="w-full aspect-square bg-zinc-950/80 rounded-lg border border-zinc-700/60 flex items-center justify-center overflow-hidden p-2 group-hover:border-red-400">
-                        <img src="https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/2963f7ee-bab7-4281-8575-56b95ce9d6e0__1_-removebg-preview.png" alt="Stealth Proxy" class="w-full h-full object-contain filter drop-shadow">
-                    </div>
-                    <span class="small-custom-text text-white text-xs sm:text-sm font-bold tracking-wide mt-2 text-center line-clamp-1 group-hover:text-red-400">
-                        Stealth Proxy
-                    </span>
-                </button>
-
-                <!-- Box 5 -->
-                <button onclick="selectThing('Node Unblocker')" class="group flex flex-col items-center justify-between bg-zinc-900/80 hover:bg-zinc-800/90 border-2 border-zinc-700/80 hover:border-red-500 rounded-xl p-3 backdrop-blur-md transition-all transform hover:-translate-y-1 shadow-lg hover:shadow-red-500/20 cursor-pointer">
-                    <div class="w-full aspect-square bg-zinc-950/80 rounded-lg border border-zinc-700/60 flex items-center justify-center overflow-hidden p-2 group-hover:border-red-400">
-                        <img src="https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/2963f7ee-bab7-4281-8575-56b95ce9d6e0__1_-removebg-preview.png" alt="Node Unblocker" class="w-full h-full object-contain filter drop-shadow">
-                    </div>
-                    <span class="small-custom-text text-white text-xs sm:text-sm font-bold tracking-wide mt-2 text-center line-clamp-1 group-hover:text-red-400">
-                        Node Unblocker
-                    </span>
-                </button>
-
-                <!-- Box 6 -->
-                <button onclick="selectThing('Games Hub')" class="group flex flex-col items-center justify-between bg-zinc-900/80 hover:bg-zinc-800/90 border-2 border-zinc-700/80 hover:border-red-500 rounded-xl p-3 backdrop-blur-md transition-all transform hover:-translate-y-1 shadow-lg hover:shadow-red-500/20 cursor-pointer">
-                    <div class="w-full aspect-square bg-zinc-950/80 rounded-lg border border-zinc-700/60 flex items-center justify-center overflow-hidden p-2 group-hover:border-red-400">
-                        <img src="https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/2963f7ee-bab7-4281-8575-56b95ce9d6e0__1_-removebg-preview.png" alt="Games Hub" class="w-full h-full object-contain filter drop-shadow">
-                    </div>
-                    <span class="small-custom-text text-white text-xs sm:text-sm font-bold tracking-wide mt-2 text-center line-clamp-1 group-hover:text-red-400">
-                        Games Hub
-                    </span>
-                </button>
-
-                <!-- Box 7 -->
-                <button onclick="selectThing('Apps Vault')" class="group flex flex-col items-center justify-between bg-zinc-900/80 hover:bg-zinc-800/90 border-2 border-zinc-700/80 hover:border-red-500 rounded-xl p-3 backdrop-blur-md transition-all transform hover:-translate-y-1 shadow-lg hover:shadow-red-500/20 cursor-pointer">
-                    <div class="w-full aspect-square bg-zinc-950/80 rounded-lg border border-zinc-700/60 flex items-center justify-center overflow-hidden p-2 group-hover:border-red-400">
-                        <img src="https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/2963f7ee-bab7-4281-8575-56b95ce9d6e0__1_-removebg-preview.png" alt="Apps Vault" class="w-full h-full object-contain filter drop-shadow">
-                    </div>
-                    <span class="small-custom-text text-white text-xs sm:text-sm font-bold tracking-wide mt-2 text-center line-clamp-1 group-hover:text-red-400">
-                        Apps Vault
-                    </span>
-                </button>
-
-                <!-- Box 8 -->
-                <button onclick="selectThing('Fast Server')" class="group flex flex-col items-center justify-between bg-zinc-900/80 hover:bg-zinc-800/90 border-2 border-zinc-700/80 hover:border-red-500 rounded-xl p-3 backdrop-blur-md transition-all transform hover:-translate-y-1 shadow-lg hover:shadow-red-500/20 cursor-pointer">
-                    <div class="w-full aspect-square bg-zinc-950/80 rounded-lg border border-zinc-700/60 flex items-center justify-center overflow-hidden p-2 group-hover:border-red-400">
-                        <img src="https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/2963f7ee-bab7-4281-8575-56b95ce9d6e0__1_-removebg-preview.png" alt="Fast Server" class="w-full h-full object-contain filter drop-shadow">
-                    </div>
-                    <span class="small-custom-text text-white text-xs sm:text-sm font-bold tracking-wide mt-2 text-center line-clamp-1 group-hover:text-red-400">
-                        Fast Server
-                    </span>
-                </button>
-
-                <!-- Box 9 -->
-                <button onclick="selectThing('Settings')" class="group flex flex-col items-center justify-between bg-zinc-900/80 hover:bg-zinc-800/90 border-2 border-zinc-700/80 hover:border-red-500 rounded-xl p-3 backdrop-blur-md transition-all transform hover:-translate-y-1 shadow-lg hover:shadow-red-500/20 cursor-pointer">
-                    <div class="w-full aspect-square bg-zinc-950/80 rounded-lg border border-zinc-700/60 flex items-center justify-center overflow-hidden p-2 group-hover:border-red-400">
-                        <img src="https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/2963f7ee-bab7-4281-8575-56b95ce9d6e0__1_-removebg-preview.png" alt="Settings" class="w-full h-full object-contain filter drop-shadow">
-                    </div>
-                    <span class="small-custom-text text-white text-xs sm:text-sm font-bold tracking-wide mt-2 text-center line-clamp-1 group-hover:text-red-400">
-                        Settings
-                    </span>
-                </button>
-
-                <!-- Box 10 -->
-                <button onclick="selectThing('About Us')" class="group flex flex-col items-center justify-between bg-zinc-900/80 hover:bg-zinc-800/90 border-2 border-zinc-700/80 hover:border-red-500 rounded-xl p-3 backdrop-blur-md transition-all transform hover:-translate-y-1 shadow-lg hover:shadow-red-500/20 cursor-pointer">
-                    <div class="w-full aspect-square bg-zinc-950/80 rounded-lg border border-zinc-700/60 flex items-center justify-center overflow-hidden p-2 group-hover:border-red-400">
-                        <img src="https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/2963f7ee-bab7-4281-8575-56b95ce9d6e0__1_-removebg-preview.png" alt="About Us" class="w-full h-full object-contain filter drop-shadow">
-                    </div>
-                    <span class="small-custom-text text-white text-xs sm:text-sm font-bold tracking-wide mt-2 text-center line-clamp-1 group-hover:text-red-400">
-                        About Us
-                    </span>
-                </button>
-
+            <div id="menu-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                <!-- Dynamically populated via JavaScript -->
             </div>
         </div>
     </section>
 
-    <!-- JavaScript Navigation & Canvas Logic -->
+    <!-- BOX LINKS GUI VIEW -->
+    <section id="detail-view" class="hidden min-h-screen w-full relative z-20 flex-col items-center justify-center pt-28 pb-16 px-4 sm:px-8 md:px-12 opacity-0 transition-opacity duration-300 pointer-events-auto">
+        
+        <!-- Box Name Header in Middle -->
+        <h1 id="detail-title" class="blocky-text text-3xl sm:text-5xl md:text-6xl tracking-wider uppercase drop-shadow-2xl text-center mb-10">
+            BOX NAME
+        </h1>
+
+        <!-- Plain Centered Raw URL Links -->
+        <div id="detail-links-container" class="flex flex-col items-center justify-center gap-5 text-center max-w-3xl w-full">
+            <!-- Dynamically populated full URL links -->
+        </div>
+    </section>
+
+    <!-- JavaScript Navigation & Category-Specific Data Configuration -->
     <script>
+        const categoryData = {
+            "UNBLOCKER HUB": [
+                {
+                    title: "kiwi",
+                    image: "https://github.com/school-rgb/Angrykeepers/blob/main/proxys%20images/Screenshot%202026-10-02%2010.55.51%20PM.png?raw=true",
+                    links: [
+                        "https://kahoot.si/",
+                        "srtgarage.net",
+                        "studyingsmart.uk",
+                        "smartstudies.cc",
+                        "classwork.lol"
+                    ]
+                },
+                {
+                    title: "frutiger",
+                    image: "https://github.com/school-rgb/Angrykeepers/blob/main/proxys%20images/image.jpg?raw=true",
+                    links: [
+                        "frutiger-os-v2-5.pages.dev"
+                    ]
+                }
+            ],
+            "PROXY LINKS": [
+                {
+                    title: "soloaros",
+                    image: "https://github.com/school-rgb/Angrykeepers/blob/main/proxys%20images/289a46ef-1546-462f-9fc9-2a5c2f9c80c6.jpeg?raw=true",
+                    links: [
+                        "solaraos.lol"
+                    ]
+                },
+                {
+                    title: "Tung",
+                    image: "https://github.com/school-rgb/Angrykeepers/blob/main/proxys%20images/image%20(2).jpg?raw=true",
+                    links: [
+                        "https://tung.sendreward.com"
+
+                    ]
+                }
+            ]
+        };
+
+        let currentCategory = "UNBLOCKER HUB";
+
+        /* Render Menu Items Grid for Active Category */
+        function renderMenuItems(categoryName) {
+            currentCategory = categoryName || "UNBLOCKER HUB";
+            const container = document.getElementById('menu-grid');
+            if (!container) return;
+
+            const items = categoryData[currentCategory] || categoryData["UNBLOCKER HUB"];
+
+            container.innerHTML = items.map((item, index) => `
+                <button onclick="openDetailGUI(${index})" class="group flex flex-col items-center justify-between bg-zinc-900/80 hover:bg-zinc-800/90 border-2 border-zinc-700/80 hover:border-red-500 rounded-xl p-2.5 backdrop-blur-md transition-all transform hover:-translate-y-1 shadow-lg hover:shadow-red-500/20 cursor-pointer aspect-[4/3] w-full">
+                    <div class="w-full h-[78%] bg-zinc-950/80 rounded-lg border border-zinc-700/60 overflow-hidden group-hover:border-red-400">
+                        <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover filter drop-shadow">
+                    </div>
+                    <span class="small-custom-text text-white text-xs sm:text-sm font-bold tracking-wide text-center line-clamp-1 group-hover:text-red-400 mt-1">
+                        ${item.title}
+                    </span>
+                </button>
+            `).join('');
+        }
+
+        /* Open Detail View to show raw full URL strings */
+        function openDetailGUI(index) {
+            const items = categoryData[currentCategory] || categoryData["UNBLOCKER HUB"];
+            const item = items[index];
+            if (!item) return;
+
+            const menuView = document.getElementById('menu-view');
+            const detailView = document.getElementById('detail-view');
+
+            document.getElementById('detail-title').textContent = item.title;
+
+            const linksContainer = document.getElementById('detail-links-container');
+            linksContainer.innerHTML = item.links.map(url => `
+                <a href="${url}" target="_blank" class="small-custom-text text-white hover:text-red-500 text-base sm:text-2xl font-bold tracking-wide transition-colors duration-200 drop-shadow-lg underline decoration-red-600/60 hover:decoration-red-500 cursor-pointer break-all">
+                    ${url}
+                </a>
+            `).join('');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            menuView.classList.remove('opacity-100');
+            menuView.classList.add('opacity-0');
+
+            setTimeout(() => {
+                menuView.classList.add('hidden');
+                menuView.classList.remove('flex');
+
+                detailView.classList.remove('hidden');
+                detailView.classList.add('flex');
+                setTimeout(() => {
+                    detailView.classList.remove('opacity-0');
+                    detailView.classList.add('opacity-100');
+                }, 10);
+            }, 300);
+        }
+
+        /* Home Canvas Background Processing */
         const canvas = document.getElementById('char-canvas');
         const ctx = canvas.getContext('2d', { willReadFrequently: true });
         const charUrl = "https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/2963f7ee-bab7-4281-8575-56b95ce9d6e0__1_-removebg-preview.png";
@@ -266,6 +279,8 @@
         function processOuterFloodFill() {
             const w = canvas.width;
             const h = canvas.height;
+            if (w === 0 || h === 0) return;
+
             const imgData = ctx.getImageData(0, 0, w, h);
             const data = imgData.data;
 
@@ -274,7 +289,7 @@
             let head = 0;
             let tail = 0;
 
-            function isBackgroundPixel(idx) {
+            function isOuterWhiteBackground(idx) {
                 const r = data[idx];
                 const g = data[idx + 1];
                 const b = data[idx + 2];
@@ -285,28 +300,28 @@
             }
 
             for (let x = 0; x < w; x++) {
-                let idxTop = (0 * w + x) * 4;
-                if (isBackgroundPixel(idxTop)) {
-                    visited[0 * w + x] = 1;
-                    queue[tail++] = 0 * w + x;
+                let topPos = 0 * w + x;
+                if (isOuterWhiteBackground(topPos * 4)) {
+                    visited[topPos] = 1;
+                    queue[tail++] = topPos;
                 }
-                let idxBot = ((h - 1) * w + x) * 4;
-                if (isBackgroundPixel(idxBot)) {
-                    visited[(h - 1) * w + x] = 1;
-                    queue[tail++] = (h - 1) * w + x;
+                let botPos = (h - 1) * w + x;
+                if (isOuterWhiteBackground(botPos * 4)) {
+                    visited[botPos] = 1;
+                    queue[tail++] = botPos;
                 }
             }
 
             for (let y = 0; y < h; y++) {
-                let idxLeft = (y * w + 0) * 4;
-                if (!visited[y * w + 0] && isBackgroundPixel(idxLeft)) {
-                    visited[y * w + 0] = 1;
-                    queue[tail++] = y * w + 0;
+                let leftPos = y * w + 0;
+                if (!visited[leftPos] && isOuterWhiteBackground(leftPos * 4)) {
+                    visited[leftPos] = 1;
+                    queue[tail++] = leftPos;
                 }
-                let idxRight = (y * w + (w - 1)) * 4;
-                if (!visited[y * w + (w - 1)] && isBackgroundPixel(idxRight)) {
-                    visited[y * w + (w - 1)] = 1;
-                    queue[tail++] = y * w + (w - 1);
+                let rightPos = y * w + (w - 1);
+                if (!visited[rightPos] && isOuterWhiteBackground(rightPos * 4)) {
+                    visited[rightPos] = 1;
+                    queue[tail++] = rightPos;
                 }
             }
 
@@ -314,8 +329,8 @@
                 const pos = queue[head++];
                 const cx = pos % w;
                 const cy = Math.floor(pos / w);
-                const pixelIdx = pos * 4;
-                data[pixelIdx + 3] = 0;
+
+                data[pos * 4 + 3] = 0;
 
                 const neighbors = [
                     [cx + 1, cy],
@@ -332,8 +347,7 @@
                         const nPos = ny * w + nx;
                         if (!visited[nPos]) {
                             visited[nPos] = 1;
-                            const nIdx = nPos * 4;
-                            if (isBackgroundPixel(nIdx)) {
+                            if (isOuterWhiteBackground(nPos * 4)) {
                                 queue[tail++] = nPos;
                             }
                         }
@@ -358,20 +372,25 @@
             ctx.putImageData(imgData, 0, 0);
         }
 
-        /* Smooth View Navigation Functions */
+        /* View Navigation */
         function showHomeView() {
             const homeView = document.getElementById('home-view');
             const menuView = document.getElementById('menu-view');
+            const detailView = document.getElementById('detail-view');
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
             menuView.classList.remove('opacity-100');
             menuView.classList.add('opacity-0');
-            
+            detailView.classList.remove('opacity-100');
+            detailView.classList.add('opacity-0');
+
             setTimeout(() => {
                 menuView.classList.add('hidden');
                 menuView.classList.remove('flex');
-                
+                detailView.classList.add('hidden');
+                detailView.classList.remove('flex');
+
                 homeView.classList.remove('hidden');
                 homeView.classList.add('flex');
                 setTimeout(() => {
@@ -381,22 +400,28 @@
             }, 300);
         }
 
-        function openMenu(initialTitle) {
+        function openMenu(categoryTitle) {
             const homeView = document.getElementById('home-view');
             const menuView = document.getElementById('menu-view');
+            const detailView = document.getElementById('detail-view');
 
-            if (initialTitle) {
-                document.getElementById('menu-title').textContent = initialTitle;
-            }
+            const formattedCategory = categoryTitle ? categoryTitle.toUpperCase() : 'UNBLOCKER HUB';
+
+            document.getElementById('menu-title').textContent = formattedCategory;
+            renderMenuItems(formattedCategory);
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
             homeView.classList.remove('opacity-100');
             homeView.classList.add('opacity-0');
+            detailView.classList.remove('opacity-100');
+            detailView.classList.add('opacity-0');
 
             setTimeout(() => {
                 homeView.classList.add('hidden');
                 homeView.classList.remove('flex');
+                detailView.classList.add('hidden');
+                detailView.classList.remove('flex');
 
                 menuView.classList.remove('hidden');
                 menuView.classList.add('flex');
@@ -407,12 +432,10 @@
             }, 300);
         }
 
-        function selectThing(name) {
-            document.getElementById('menu-title').textContent = name;
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        window.onload = loadAndProcessImage;
+        window.onload = () => {
+            renderMenuItems('UNBLOCKER HUB');
+            loadAndProcessImage();
+        };
     </script>
 </body>
 </html>
