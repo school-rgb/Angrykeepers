@@ -2,23 +2,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANGRYKEEPERS</title>
+    <title>ANGRY KEEPERS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet">
     <style>
-        .blocky-text {
-            font-family: 'Rubik Mono One', cursive, sans-serif;
-            color: #ffffff;
-            -webkit-text-stroke: 3px #ef4444;
-            paint-order: stroke fill;
-            text-shadow: 0 8px 16px rgba(0, 0, 0, 0.8), 3px 3px 0px #7f1d1d;
+        @font-face {
+            font-family: 'AngryKeepersHugeFont';
+            /* Primary OTF font family for huge titles */
+            src: url('batsy-bounce.regular.otf') format('opentype'),
+                 url('https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/batsy-bounce.regular.otf') format('opentype'),
+                 url('velocita.personal-use.otf') format('opentype'),
+                 url('https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/velocita.personal-use.otf') format('opentype'),
+                 url('squares-bold.regular.otf') format('opentype'),
+                 url('dedicool.regular.otf') format('opentype');
+            font-weight: 900;
+            font-style: normal;
+            font-display: swap;
         }
-        @media (min-width: 768px) {
-            .blocky-text {
-                -webkit-text-stroke: 4px #ef4444;
-            }
+
+        @font-face {
+            font-family: 'AngryKeepersSmallFont';
+            /* Primary TTF font family for small body text */
+            src: url('gnf.regular.ttf') format('truetype'),
+                 url('https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/gnf.regular.ttf') format('truetype'),
+                 url('gnf.regular.otf') format('opentype'),
+                 url('dedicool.regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        .blocky-text {
+            font-family: 'AngryKeepersHugeFont', 'Rubik Mono One', 'Impact', cursive, sans-serif;
+            color: #ffffff;
+            text-shadow: 0 8px 16px rgba(0, 0, 0, 0.8);
+        }
+
+        .small-custom-text {
+            font-family: 'AngryKeepersSmallFont', sans-serif;
         }
     </style>
 </head>
@@ -30,9 +53,22 @@
          alt="Background" 
          class="absolute inset-0 w-full h-full object-cover z-0">
 
-    <!-- Character Display Canvas (Middle Right) -->
-    <div class="absolute right-6 sm:right-12 md:right-20 top-1/2 -translate-y-1/2 z-10 w-[42vw] max-w-[480px] max-h-[70vh] aspect-square flex items-center justify-center pointer-events-none">
-        <canvas id="char-canvas" class="w-full h-full object-contain"></canvas>
+    <!-- Main Content Container (Vertically Centered, Top-Aligned Items) -->
+    <div class="absolute inset-x-6 sm:inset-x-12 md:inset-x-16 lg:inset-x-24 top-1/2 -translate-y-1/2 z-20 flex flex-row items-start justify-between pointer-events-none">
+        <!-- Left Side Section: ANGRY KEEPERS Title top-aligned with PNG -->
+        <div class="flex flex-col items-start max-w-lg lg:max-w-xl pointer-events-auto pt-[19px]">
+            <h1 class="blocky-text text-2xl sm:text-4xl md:text-5xl lg:text-6xl tracking-wider leading-none select-none drop-shadow-2xl whitespace-nowrap">
+                ANGRY KEEPERS
+            </h1>
+            <p class="small-custom-text mt-4 text-white/90 text-sm sm:text-base md:text-lg font-medium drop-shadow-md leading-relaxed">
+                We have a hundred proxy links. We're the biggest proxy link website out there.
+            </p>
+        </div>
+
+        <!-- Character Display Canvas (Middle Right) -->
+        <div class="w-[42vw] max-w-[480px] max-h-[70vh] aspect-square flex items-center justify-center pointer-events-none">
+            <canvas id="char-canvas" class="w-full h-full object-contain"></canvas>
+        </div>
     </div>
 
     <script>
@@ -178,6 +214,34 @@
 
             // Update canvas with cleaned pixel data
             ctx.putImageData(imgData, 0, 0);
+        }
+
+        function copyShareLink() {
+            try {
+                const dummy = document.createElement('textarea');
+                dummy.value = window.location.href;
+                dummy.style.position = 'fixed';
+                dummy.style.opacity = '0';
+                document.body.appendChild(dummy);
+                dummy.focus();
+                dummy.select();
+                document.execCommand('copy');
+                document.body.removeChild(dummy);
+            } catch (err) {
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(window.location.href);
+                }
+            }
+
+            const toast = document.getElementById('toast');
+            if (toast) {
+                toast.classList.remove('opacity-0');
+                toast.classList.add('opacity-100');
+                setTimeout(() => {
+                    toast.classList.remove('opacity-100');
+                    toast.classList.add('opacity-0');
+                }, 2500);
+            }
         }
 
         // Initialize on page load
