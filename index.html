@@ -34,6 +34,10 @@
             font-display: swap;
         }
 
+        * {
+            font-family: 'AngryKeepersSmallFont', sans-serif;
+        }
+
         .blocky-text {
             font-family: 'AngryKeepersHugeFont', 'Rubik Mono One', 'Impact', cursive, sans-serif;
             color: #ffffff;
@@ -45,13 +49,60 @@
         }
     </style>
 </head>
-<body class="w-screen h-screen overflow-hidden bg-black select-none font-sans">
+<body class="w-screen h-screen overflow-hidden bg-black select-none">
 
-    <!-- Fullscreen Background Image -->
+    <!-- Fullscreen Background Image (Flipped Vertically) -->
     <img id="bg-img" 
          src="https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/5819c412-68d6-4491-b872-0a52c97a3ef9.jpeg" 
          alt="Background" 
-         class="absolute inset-0 w-full h-full object-cover z-0">
+         class="absolute inset-0 w-full h-full object-cover z-0 -scale-y-100">
+
+    <!-- Top Black Shadow Bar with Links -->
+    <div class="absolute top-0 inset-x-0 h-28 bg-gradient-to-b from-black/95 via-black/70 to-transparent z-30 flex items-start justify-between px-6 sm:px-12 md:px-16 lg:px-24 pt-4 pointer-events-auto">
+        <div class="flex items-center gap-4 sm:gap-6">
+            <span class="small-custom-text text-white text-base sm:text-lg font-bold tracking-wider uppercase drop-shadow">Links</span>
+            <div class="flex items-center gap-2 sm:gap-3">
+                <button onclick="toggleLinksModal()" class="px-3 py-1.5 bg-red-600/90 hover:bg-red-500 text-white rounded-md text-xs sm:text-sm font-medium transition backdrop-blur-sm border border-red-400/40 shadow-lg flex items-center gap-1.5 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                    Proxy Mirrors
+                </button>
+                <button onclick="toggleLinksModal()" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-md text-xs sm:text-sm font-medium transition backdrop-blur-sm border border-white/20 cursor-pointer">
+                    Unblocker Hub
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Proxy Links Modal Overlay -->
+    <div id="links-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-zinc-900 border border-zinc-700 text-white rounded-xl max-w-lg w-full p-6 shadow-2xl relative">
+            <button onclick="toggleLinksModal()" class="absolute top-4 right-4 text-zinc-400 hover:text-white text-xl font-bold cursor-pointer">&times;</button>
+            <h2 class="small-custom-text text-xl font-bold text-red-500 mb-2">ANGRY KEEPERS LINKS</h2>
+            <p class="text-zinc-300 text-sm mb-4">Select a mirror link to access proxy services:</p>
+            <div class="space-y-2 max-h-60 overflow-y-auto pr-1">
+                <a href="#" onclick="copyLink('https://proxy1.angrykeepers.org')" class="flex items-center justify-between p-3 bg-zinc-800 hover:bg-zinc-700 rounded-lg text-sm transition border border-zinc-700">
+                    <span class="font-medium text-white">Mirror 1 (Ultra Speed)</span>
+                    <span class="text-xs text-red-400">Copy Link</span>
+                </a>
+                <a href="#" onclick="copyLink('https://proxy2.angrykeepers.org')" class="flex items-center justify-between p-3 bg-zinc-800 hover:bg-zinc-700 rounded-lg text-sm transition border border-zinc-700">
+                    <span class="font-medium text-white">Mirror 2 (Stealth Proxy)</span>
+                    <span class="text-xs text-red-400">Copy Link</span>
+                </a>
+                <a href="#" onclick="copyLink('https://proxy3.angrykeepers.org')" class="flex items-center justify-between p-3 bg-zinc-800 hover:bg-zinc-700 rounded-lg text-sm transition border border-zinc-700">
+                    <span class="font-medium text-white">Mirror 3 (Node Unblocker)</span>
+                    <span class="text-xs text-red-400">Copy Link</span>
+                </a>
+            </div>
+            <button onclick="toggleLinksModal()" class="mt-5 w-full py-2 bg-red-600 hover:bg-red-500 text-white font-medium text-sm rounded-lg transition cursor-pointer">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 bg-red-600 text-white px-4 py-2 rounded-lg text-sm shadow-xl z-50 opacity-0 transition-opacity duration-300 pointer-events-none font-medium">
+        Link copied to clipboard!
+    </div>
 
     <!-- Main Content Container (Vertically Centered, Top-Aligned Items) -->
     <div class="absolute inset-x-6 sm:inset-x-12 md:inset-x-16 lg:inset-x-24 top-1/2 -translate-y-1/2 z-20 flex flex-row items-start justify-between pointer-events-none">
@@ -214,6 +265,48 @@
 
             // Update canvas with cleaned pixel data
             ctx.putImageData(imgData, 0, 0);
+        }
+
+        function toggleLinksModal() {
+            const modal = document.getElementById('links-modal');
+            if (modal) {
+                if (modal.classList.contains('opacity-0')) {
+                    modal.classList.remove('opacity-0', 'pointer-events-none');
+                    modal.classList.add('opacity-100', 'pointer-events-auto');
+                } else {
+                    modal.classList.remove('opacity-100', 'pointer-events-auto');
+                    modal.classList.add('opacity-0', 'pointer-events-none');
+                }
+            }
+        }
+
+        function copyLink(url) {
+            try {
+                const dummy = document.createElement('textarea');
+                dummy.value = url;
+                dummy.style.position = 'fixed';
+                dummy.style.opacity = '0';
+                document.body.appendChild(dummy);
+                dummy.focus();
+                dummy.select();
+                document.execCommand('copy');
+                document.body.removeChild(dummy);
+            } catch (err) {
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(url);
+                }
+            }
+
+            const toast = document.getElementById('toast');
+            if (toast) {
+                toast.innerText = 'Proxy link copied: ' + url;
+                toast.classList.remove('opacity-0');
+                toast.classList.add('opacity-100');
+                setTimeout(() => {
+                    toast.classList.remove('opacity-100');
+                    toast.classList.add('opacity-0');
+                }, 2500);
+            }
         }
 
         function copyShareLink() {
