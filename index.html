@@ -1,4 +1,5 @@
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +11,6 @@
     <style>
         @font-face {
             font-family: 'AngryKeepersHugeFont';
-            /* Primary OTF font family for huge titles */
             src: url('batsy-bounce.regular.otf') format('opentype'),
                  url('https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/batsy-bounce.regular.otf') format('opentype'),
                  url('velocita.personal-use.otf') format('opentype'),
@@ -24,7 +24,6 @@
 
         @font-face {
             font-family: 'AngryKeepersSmallFont';
-            /* Primary TTF font family for small body text */
             src: url('gnf.regular.ttf') format('truetype'),
                  url('https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/gnf.regular.ttf') format('truetype'),
                  url('gnf.regular.otf') format('opentype'),
@@ -41,73 +40,66 @@
         .blocky-text {
             font-family: 'AngryKeepersHugeFont', 'Rubik Mono One', 'Impact', cursive, sans-serif;
             color: #ffffff;
-            text-shadow: 0 8px 16px rgba(0, 0, 0, 0.8);
+            text-shadow: 0 8px 16px rgba(0, 0, 0, 0.85);
         }
 
         .small-custom-text {
             font-family: 'AngryKeepersSmallFont', sans-serif;
         }
+
+        /* Entire Website Clean Scrollbar (No inner box clipping) */
+        ::-webkit-scrollbar {
+            display: none;
+            width: 0px;
+        }
+        html, body {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
     </style>
 </head>
-<body class="w-screen h-screen overflow-hidden bg-black select-none">
+<body class="w-full min-h-screen bg-black select-none relative overflow-x-hidden overflow-y-auto">
 
-    <!-- Fullscreen Background Image (Flipped Vertically) -->
+    <!-- Fixed Fullscreen Background Image (Stays in place when website scrolls) -->
     <img id="bg-img" 
          src="https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/5819c412-68d6-4491-b872-0a52c97a3ef9.jpeg" 
          alt="Background" 
-         class="absolute inset-0 w-full h-full object-cover z-0 -scale-y-100">
+         class="fixed inset-0 w-full h-full object-cover z-0 -scale-y-100 pointer-events-none">
 
-    <!-- Top Black Shadow Bar with Links -->
-    <div class="absolute top-0 inset-x-0 h-28 bg-gradient-to-b from-black/95 via-black/70 to-transparent z-30 flex items-start justify-between px-6 sm:px-12 md:px-16 lg:px-24 pt-4 pointer-events-auto">
+    <!-- Top Navigation Bar (Fixed Header) -->
+    <header class="fixed top-0 inset-x-0 h-28 bg-gradient-to-b from-black/95 via-black/70 to-transparent z-40 flex items-start justify-between px-6 sm:px-12 md:px-16 lg:px-24 pt-4 pointer-events-auto">
         <div class="flex items-center gap-4 sm:gap-6">
             <span class="small-custom-text text-white text-base sm:text-lg font-bold tracking-wider uppercase drop-shadow">Links</span>
             <div class="flex items-center gap-2 sm:gap-3">
-                <button onclick="toggleLinksModal()" class="px-3 py-1.5 bg-red-600/90 hover:bg-red-500 text-white rounded-md text-xs sm:text-sm font-medium transition backdrop-blur-sm border border-red-400/40 shadow-lg flex items-center gap-1.5 cursor-pointer">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
-                    Proxy Mirrors
+                <!-- Home Button (Red) -->
+                <button onclick="showHomeView()" class="px-3 py-1.5 bg-red-600/90 hover:bg-red-500 text-white rounded-md text-xs sm:text-sm font-medium transition backdrop-blur-sm border border-red-400/40 shadow-lg flex items-center gap-1.5 cursor-pointer">
+                    Home
                 </button>
-                <button onclick="toggleLinksModal()" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-md text-xs sm:text-sm font-medium transition backdrop-blur-sm border border-white/20 cursor-pointer">
+
+                <!-- Proxy Mirrors Button (With Chain Icon & Opens Full-Screen UI Menu) -->
+                <button onclick="openMenu('PROXY links')" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-md text-xs sm:text-sm font-medium transition backdrop-blur-sm border border-white/20 flex items-center gap-1.5 cursor-pointer">
+                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                    Proxy links
+                </button>
+
+                <!-- Unblocker Hub Button (With Chain Icon & Opens Full-Screen UI Menu) -->
+                <button onclick="openMenu('UNBLOCKER HUB')" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-md text-xs sm:text-sm font-medium transition backdrop-blur-sm border border-white/20 flex items-center gap-1.5 cursor-pointer">
+                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
                     Unblocker Hub
                 </button>
             </div>
         </div>
-    </div>
-
-    <!-- Proxy Links Modal Overlay -->
-    <div id="links-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
-        <div class="bg-zinc-900 border border-zinc-700 text-white rounded-xl max-w-lg w-full p-6 shadow-2xl relative">
-            <button onclick="toggleLinksModal()" class="absolute top-4 right-4 text-zinc-400 hover:text-white text-xl font-bold cursor-pointer">&times;</button>
-            <h2 class="small-custom-text text-xl font-bold text-red-500 mb-2">ANGRY KEEPERS LINKS</h2>
-            <p class="text-zinc-300 text-sm mb-4">Select a mirror link to access proxy services:</p>
-            <div class="space-y-2 max-h-60 overflow-y-auto pr-1">
-                <a href="#" onclick="copyLink('https://proxy1.angrykeepers.org')" class="flex items-center justify-between p-3 bg-zinc-800 hover:bg-zinc-700 rounded-lg text-sm transition border border-zinc-700">
-                    <span class="font-medium text-white">Mirror 1 (Ultra Speed)</span>
-                    <span class="text-xs text-red-400">Copy Link</span>
-                </a>
-                <a href="#" onclick="copyLink('https://proxy2.angrykeepers.org')" class="flex items-center justify-between p-3 bg-zinc-800 hover:bg-zinc-700 rounded-lg text-sm transition border border-zinc-700">
-                    <span class="font-medium text-white">Mirror 2 (Stealth Proxy)</span>
-                    <span class="text-xs text-red-400">Copy Link</span>
-                </a>
-                <a href="#" onclick="copyLink('https://proxy3.angrykeepers.org')" class="flex items-center justify-between p-3 bg-zinc-800 hover:bg-zinc-700 rounded-lg text-sm transition border border-zinc-700">
-                    <span class="font-medium text-white">Mirror 3 (Node Unblocker)</span>
-                    <span class="text-xs text-red-400">Copy Link</span>
-                </a>
-            </div>
-            <button onclick="toggleLinksModal()" class="mt-5 w-full py-2 bg-red-600 hover:bg-red-500 text-white font-medium text-sm rounded-lg transition cursor-pointer">
-                Close
-            </button>
-        </div>
-    </div>
+    </header>
 
     <!-- Toast Notification -->
     <div id="toast" class="fixed bottom-6 right-6 bg-red-600 text-white px-4 py-2 rounded-lg text-sm shadow-xl z-50 opacity-0 transition-opacity duration-300 pointer-events-none font-medium">
         Link copied to clipboard!
     </div>
 
-    <!-- Main Content Container (Vertically Centered, Top-Aligned Items) -->
-    <div class="absolute inset-x-6 sm:inset-x-12 md:inset-x-16 lg:inset-x-24 top-1/2 -translate-y-1/2 z-20 flex flex-row items-start justify-between pointer-events-none">
-        <!-- Left Side Section: ANGRY KEEPERS Title top-aligned with PNG -->
-        <div class="flex flex-col items-start max-w-lg lg:max-w-xl pointer-events-auto pt-[19px]">
+    <!-- HOME VIEW -->
+    <main id="home-view" class="min-h-screen w-full relative z-20 flex flex-row items-center justify-between px-6 sm:px-12 md:px-16 lg:px-24 transition-all duration-300 opacity-100 pointer-events-auto">
+        <!-- Title & Text Description -->
+        <div class="flex flex-col items-start max-w-lg lg:max-w-xl">
             <h1 class="blocky-text text-2xl sm:text-4xl md:text-5xl lg:text-6xl tracking-wider leading-none select-none drop-shadow-2xl whitespace-nowrap">
                 ANGRY KEEPERS
             </h1>
@@ -116,22 +108,139 @@
             </p>
         </div>
 
-        <!-- Character Display Canvas (Middle Right) -->
+        <!-- Character Display Canvas -->
         <div class="w-[42vw] max-w-[480px] max-h-[70vh] aspect-square flex items-center justify-center pointer-events-none">
             <canvas id="char-canvas" class="w-full h-full object-contain"></canvas>
         </div>
-    </div>
+    </main>
 
+    <!-- FULL-SCREEN MENU VIEW (Website Page Scroll Strategy - No Internal Box Scroll & No Cutoff Boxes) -->
+    <section id="menu-view" class="hidden min-h-screen w-full relative z-20 flex-col items-center justify-start pt-32 pb-16 px-4 sm:px-8 md:px-12 opacity-0 transition-opacity duration-300 pointer-events-auto">
+        
+        <!-- Top Middle Header Title -->
+        <div class="w-full text-center mb-8">
+            <h1 id="menu-title" class="blocky-text text-3xl sm:text-5xl md:text-6xl tracking-wider uppercase drop-shadow-2xl transition-all duration-300">
+                UNBLOCKER HUB
+            </h1>
+        </div>
+
+        <!-- Full Page 5-Column Grid -->
+        <div class="w-full max-w-6xl">
+            <div class="grid grid-cols-5 gap-3 sm:gap-4 md:gap-5">
+
+                <!-- Box 1 -->
+                <button onclick="selectThing('Unblocker Hub')" class="group flex flex-col items-center justify-between bg-zinc-900/80 hover:bg-zinc-800/90 border-2 border-zinc-700/80 hover:border-red-500 rounded-xl p-3 backdrop-blur-md transition-all transform hover:-translate-y-1 shadow-lg hover:shadow-red-500/20 cursor-pointer">
+                    <div class="w-full aspect-square bg-zinc-950/80 rounded-lg border border-zinc-700/60 flex items-center justify-center overflow-hidden p-2 group-hover:border-red-400">
+                        <img src="https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/2963f7ee-bab7-4281-8575-56b95ce9d6e0__1_-removebg-preview.png" alt="Unblocker Hub" class="w-full h-full object-contain filter drop-shadow">
+                    </div>
+                    <span class="small-custom-text text-white text-xs sm:text-sm font-bold tracking-wide mt-2 text-center line-clamp-1 group-hover:text-red-400">
+                        Unblocker Hub
+                    </span>
+                </button>
+
+                <!-- Box 2 -->
+                <button onclick="selectThing('Proxy links')" class="group flex flex-col items-center justify-between bg-zinc-900/80 hover:bg-zinc-800/90 border-2 border-zinc-700/80 hover:border-red-500 rounded-xl p-3 backdrop-blur-md transition-all transform hover:-translate-y-1 shadow-lg hover:shadow-red-500/20 cursor-pointer">
+                    <div class="w-full aspect-square bg-zinc-950/80 rounded-lg border border-zinc-700/60 flex items-center justify-center overflow-hidden p-2 group-hover:border-red-400">
+                        <img src="https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/2963f7ee-bab7-4281-8575-56b95ce9d6e0__1_-removebg-preview.png" alt="Proxy links" class="w-full h-full object-contain filter drop-shadow">
+                    </div>
+                    <span class="small-custom-text text-white text-xs sm:text-sm font-bold tracking-wide mt-2 text-center line-clamp-1 group-hover:text-red-400">
+                        Proxy links
+                    </span>
+                </button>
+
+                <!-- Box 3 -->
+                <button onclick="selectThing('Ultra Speed')" class="group flex flex-col items-center justify-between bg-zinc-900/80 hover:bg-zinc-800/90 border-2 border-zinc-700/80 hover:border-red-500 rounded-xl p-3 backdrop-blur-md transition-all transform hover:-translate-y-1 shadow-lg hover:shadow-red-500/20 cursor-pointer">
+                    <div class="w-full aspect-square bg-zinc-950/80 rounded-lg border border-zinc-700/60 flex items-center justify-center overflow-hidden p-2 group-hover:border-red-400">
+                        <img src="https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/2963f7ee-bab7-4281-8575-56b95ce9d6e0__1_-removebg-preview.png" alt="Ultra Speed" class="w-full h-full object-contain filter drop-shadow">
+                    </div>
+                    <span class="small-custom-text text-white text-xs sm:text-sm font-bold tracking-wide mt-2 text-center line-clamp-1 group-hover:text-red-400">
+                        Ultra Speed
+                    </span>
+                </button>
+
+                <!-- Box 4 -->
+                <button onclick="selectThing('Stealth Proxy')" class="group flex flex-col items-center justify-between bg-zinc-900/80 hover:bg-zinc-800/90 border-2 border-zinc-700/80 hover:border-red-500 rounded-xl p-3 backdrop-blur-md transition-all transform hover:-translate-y-1 shadow-lg hover:shadow-red-500/20 cursor-pointer">
+                    <div class="w-full aspect-square bg-zinc-950/80 rounded-lg border border-zinc-700/60 flex items-center justify-center overflow-hidden p-2 group-hover:border-red-400">
+                        <img src="https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/2963f7ee-bab7-4281-8575-56b95ce9d6e0__1_-removebg-preview.png" alt="Stealth Proxy" class="w-full h-full object-contain filter drop-shadow">
+                    </div>
+                    <span class="small-custom-text text-white text-xs sm:text-sm font-bold tracking-wide mt-2 text-center line-clamp-1 group-hover:text-red-400">
+                        Stealth Proxy
+                    </span>
+                </button>
+
+                <!-- Box 5 -->
+                <button onclick="selectThing('Node Unblocker')" class="group flex flex-col items-center justify-between bg-zinc-900/80 hover:bg-zinc-800/90 border-2 border-zinc-700/80 hover:border-red-500 rounded-xl p-3 backdrop-blur-md transition-all transform hover:-translate-y-1 shadow-lg hover:shadow-red-500/20 cursor-pointer">
+                    <div class="w-full aspect-square bg-zinc-950/80 rounded-lg border border-zinc-700/60 flex items-center justify-center overflow-hidden p-2 group-hover:border-red-400">
+                        <img src="https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/2963f7ee-bab7-4281-8575-56b95ce9d6e0__1_-removebg-preview.png" alt="Node Unblocker" class="w-full h-full object-contain filter drop-shadow">
+                    </div>
+                    <span class="small-custom-text text-white text-xs sm:text-sm font-bold tracking-wide mt-2 text-center line-clamp-1 group-hover:text-red-400">
+                        Node Unblocker
+                    </span>
+                </button>
+
+                <!-- Box 6 -->
+                <button onclick="selectThing('Games Hub')" class="group flex flex-col items-center justify-between bg-zinc-900/80 hover:bg-zinc-800/90 border-2 border-zinc-700/80 hover:border-red-500 rounded-xl p-3 backdrop-blur-md transition-all transform hover:-translate-y-1 shadow-lg hover:shadow-red-500/20 cursor-pointer">
+                    <div class="w-full aspect-square bg-zinc-950/80 rounded-lg border border-zinc-700/60 flex items-center justify-center overflow-hidden p-2 group-hover:border-red-400">
+                        <img src="https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/2963f7ee-bab7-4281-8575-56b95ce9d6e0__1_-removebg-preview.png" alt="Games Hub" class="w-full h-full object-contain filter drop-shadow">
+                    </div>
+                    <span class="small-custom-text text-white text-xs sm:text-sm font-bold tracking-wide mt-2 text-center line-clamp-1 group-hover:text-red-400">
+                        Games Hub
+                    </span>
+                </button>
+
+                <!-- Box 7 -->
+                <button onclick="selectThing('Apps Vault')" class="group flex flex-col items-center justify-between bg-zinc-900/80 hover:bg-zinc-800/90 border-2 border-zinc-700/80 hover:border-red-500 rounded-xl p-3 backdrop-blur-md transition-all transform hover:-translate-y-1 shadow-lg hover:shadow-red-500/20 cursor-pointer">
+                    <div class="w-full aspect-square bg-zinc-950/80 rounded-lg border border-zinc-700/60 flex items-center justify-center overflow-hidden p-2 group-hover:border-red-400">
+                        <img src="https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/2963f7ee-bab7-4281-8575-56b95ce9d6e0__1_-removebg-preview.png" alt="Apps Vault" class="w-full h-full object-contain filter drop-shadow">
+                    </div>
+                    <span class="small-custom-text text-white text-xs sm:text-sm font-bold tracking-wide mt-2 text-center line-clamp-1 group-hover:text-red-400">
+                        Apps Vault
+                    </span>
+                </button>
+
+                <!-- Box 8 -->
+                <button onclick="selectThing('Fast Server')" class="group flex flex-col items-center justify-between bg-zinc-900/80 hover:bg-zinc-800/90 border-2 border-zinc-700/80 hover:border-red-500 rounded-xl p-3 backdrop-blur-md transition-all transform hover:-translate-y-1 shadow-lg hover:shadow-red-500/20 cursor-pointer">
+                    <div class="w-full aspect-square bg-zinc-950/80 rounded-lg border border-zinc-700/60 flex items-center justify-center overflow-hidden p-2 group-hover:border-red-400">
+                        <img src="https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/2963f7ee-bab7-4281-8575-56b95ce9d6e0__1_-removebg-preview.png" alt="Fast Server" class="w-full h-full object-contain filter drop-shadow">
+                    </div>
+                    <span class="small-custom-text text-white text-xs sm:text-sm font-bold tracking-wide mt-2 text-center line-clamp-1 group-hover:text-red-400">
+                        Fast Server
+                    </span>
+                </button>
+
+                <!-- Box 9 -->
+                <button onclick="selectThing('Settings')" class="group flex flex-col items-center justify-between bg-zinc-900/80 hover:bg-zinc-800/90 border-2 border-zinc-700/80 hover:border-red-500 rounded-xl p-3 backdrop-blur-md transition-all transform hover:-translate-y-1 shadow-lg hover:shadow-red-500/20 cursor-pointer">
+                    <div class="w-full aspect-square bg-zinc-950/80 rounded-lg border border-zinc-700/60 flex items-center justify-center overflow-hidden p-2 group-hover:border-red-400">
+                        <img src="https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/2963f7ee-bab7-4281-8575-56b95ce9d6e0__1_-removebg-preview.png" alt="Settings" class="w-full h-full object-contain filter drop-shadow">
+                    </div>
+                    <span class="small-custom-text text-white text-xs sm:text-sm font-bold tracking-wide mt-2 text-center line-clamp-1 group-hover:text-red-400">
+                        Settings
+                    </span>
+                </button>
+
+                <!-- Box 10 -->
+                <button onclick="selectThing('About Us')" class="group flex flex-col items-center justify-between bg-zinc-900/80 hover:bg-zinc-800/90 border-2 border-zinc-700/80 hover:border-red-500 rounded-xl p-3 backdrop-blur-md transition-all transform hover:-translate-y-1 shadow-lg hover:shadow-red-500/20 cursor-pointer">
+                    <div class="w-full aspect-square bg-zinc-950/80 rounded-lg border border-zinc-700/60 flex items-center justify-center overflow-hidden p-2 group-hover:border-red-400">
+                        <img src="https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/2963f7ee-bab7-4281-8575-56b95ce9d6e0__1_-removebg-preview.png" alt="About Us" class="w-full h-full object-contain filter drop-shadow">
+                    </div>
+                    <span class="small-custom-text text-white text-xs sm:text-sm font-bold tracking-wide mt-2 text-center line-clamp-1 group-hover:text-red-400">
+                        About Us
+                    </span>
+                </button>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- JavaScript Navigation & Canvas Logic -->
     <script>
         const canvas = document.getElementById('char-canvas');
         const ctx = canvas.getContext('2d', { willReadFrequently: true });
         const charUrl = "https://raw.githubusercontent.com/school-rgb/Angrykeepers/main/2963f7ee-bab7-4281-8575-56b95ce9d6e0__1_-removebg-preview.png";
 
-        // Fixed processing parameters
         const thresholdVal = 238;
         const featherVal = 1;
 
-        // Load image securely via blob to bypass CORS restrictions
         async function loadAndProcessImage() {
             let img = new Image();
             img.crossOrigin = "Anonymous";
@@ -142,19 +251,14 @@
                 const objectURL = URL.createObjectURL(blob);
                 img.src = objectURL;
             } catch (err) {
-                // Fallback to direct URL if fetch fails
                 img.src = charUrl;
             }
 
             img.onload = () => {
                 canvas.width = img.naturalWidth || 600;
                 canvas.height = img.naturalHeight || 600;
-
-                // Draw initial image
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.drawImage(img, 0, 0);
-
-                // Run edge-connected flood fill automatically
                 processOuterFloodFill();
             };
         }
@@ -170,26 +274,22 @@
             let head = 0;
             let tail = 0;
 
-            // Helper to check if a pixel is outer background white/bright
             function isBackgroundPixel(idx) {
                 const r = data[idx];
                 const g = data[idx + 1];
                 const b = data[idx + 2];
                 const a = data[idx + 3];
 
-                if (a < 15) return true; // Already transparent
+                if (a < 15) return true;
                 return (r >= thresholdVal && g >= thresholdVal && b >= thresholdVal);
             }
 
-            // Seed BFS queue with top, bottom, left, and right borders
             for (let x = 0; x < w; x++) {
-                // Top edge
                 let idxTop = (0 * w + x) * 4;
                 if (isBackgroundPixel(idxTop)) {
                     visited[0 * w + x] = 1;
                     queue[tail++] = 0 * w + x;
                 }
-                // Bottom edge
                 let idxBot = ((h - 1) * w + x) * 4;
                 if (isBackgroundPixel(idxBot)) {
                     visited[(h - 1) * w + x] = 1;
@@ -198,13 +298,11 @@
             }
 
             for (let y = 0; y < h; y++) {
-                // Left edge
                 let idxLeft = (y * w + 0) * 4;
                 if (!visited[y * w + 0] && isBackgroundPixel(idxLeft)) {
                     visited[y * w + 0] = 1;
                     queue[tail++] = y * w + 0;
                 }
-                // Right edge
                 let idxRight = (y * w + (w - 1)) * 4;
                 if (!visited[y * w + (w - 1)] && isBackgroundPixel(idxRight)) {
                     visited[y * w + (w - 1)] = 1;
@@ -212,17 +310,13 @@
                 }
             }
 
-            // Breadth-First Search (BFS) starting strictly from outer edges
             while (head < tail) {
                 const pos = queue[head++];
                 const cx = pos % w;
                 const cy = Math.floor(pos / w);
-
-                // Mark pixel as transparent
                 const pixelIdx = pos * 4;
                 data[pixelIdx + 3] = 0;
 
-                // Check 4 adjacent neighbors
                 const neighbors = [
                     [cx + 1, cy],
                     [cx - 1, cy],
@@ -247,14 +341,12 @@
                 }
             }
 
-            // Optional subtle edge feathering for smooth anti-aliasing
             if (featherVal > 0) {
                 for (let y = 1; y < h - 1; y++) {
                     for (let x = 1; x < w - 1; x++) {
                         const pos = y * w + x;
                         const idx = pos * 4;
                         if (data[idx + 3] > 0 && !visited[pos]) {
-                            // Check if adjacent to an erased background pixel
                             if (visited[pos - 1] || visited[pos + 1] || visited[pos - w] || visited[pos + w]) {
                                 data[idx + 3] = Math.floor(data[idx + 3] * 0.4);
                             }
@@ -263,81 +355,63 @@
                 }
             }
 
-            // Update canvas with cleaned pixel data
             ctx.putImageData(imgData, 0, 0);
         }
 
-        function toggleLinksModal() {
-            const modal = document.getElementById('links-modal');
-            if (modal) {
-                if (modal.classList.contains('opacity-0')) {
-                    modal.classList.remove('opacity-0', 'pointer-events-none');
-                    modal.classList.add('opacity-100', 'pointer-events-auto');
-                } else {
-                    modal.classList.remove('opacity-100', 'pointer-events-auto');
-                    modal.classList.add('opacity-0', 'pointer-events-none');
-                }
-            }
-        }
+        /* Smooth View Navigation Functions */
+        function showHomeView() {
+            const homeView = document.getElementById('home-view');
+            const menuView = document.getElementById('menu-view');
 
-        function copyLink(url) {
-            try {
-                const dummy = document.createElement('textarea');
-                dummy.value = url;
-                dummy.style.position = 'fixed';
-                dummy.style.opacity = '0';
-                document.body.appendChild(dummy);
-                dummy.focus();
-                dummy.select();
-                document.execCommand('copy');
-                document.body.removeChild(dummy);
-            } catch (err) {
-                if (navigator.clipboard) {
-                    navigator.clipboard.writeText(url);
-                }
-            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
 
-            const toast = document.getElementById('toast');
-            if (toast) {
-                toast.innerText = 'Proxy link copied: ' + url;
-                toast.classList.remove('opacity-0');
-                toast.classList.add('opacity-100');
+            menuView.classList.remove('opacity-100');
+            menuView.classList.add('opacity-0');
+            
+            setTimeout(() => {
+                menuView.classList.add('hidden');
+                menuView.classList.remove('flex');
+                
+                homeView.classList.remove('hidden');
+                homeView.classList.add('flex');
                 setTimeout(() => {
-                    toast.classList.remove('opacity-100');
-                    toast.classList.add('opacity-0');
-                }, 2500);
-            }
+                    homeView.classList.remove('opacity-0');
+                    homeView.classList.add('opacity-100');
+                }, 10);
+            }, 300);
         }
 
-        function copyShareLink() {
-            try {
-                const dummy = document.createElement('textarea');
-                dummy.value = window.location.href;
-                dummy.style.position = 'fixed';
-                dummy.style.opacity = '0';
-                document.body.appendChild(dummy);
-                dummy.focus();
-                dummy.select();
-                document.execCommand('copy');
-                document.body.removeChild(dummy);
-            } catch (err) {
-                if (navigator.clipboard) {
-                    navigator.clipboard.writeText(window.location.href);
-                }
+        function openMenu(initialTitle) {
+            const homeView = document.getElementById('home-view');
+            const menuView = document.getElementById('menu-view');
+
+            if (initialTitle) {
+                document.getElementById('menu-title').textContent = initialTitle;
             }
 
-            const toast = document.getElementById('toast');
-            if (toast) {
-                toast.classList.remove('opacity-0');
-                toast.classList.add('opacity-100');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            homeView.classList.remove('opacity-100');
+            homeView.classList.add('opacity-0');
+
+            setTimeout(() => {
+                homeView.classList.add('hidden');
+                homeView.classList.remove('flex');
+
+                menuView.classList.remove('hidden');
+                menuView.classList.add('flex');
                 setTimeout(() => {
-                    toast.classList.remove('opacity-100');
-                    toast.classList.add('opacity-0');
-                }, 2500);
-            }
+                    menuView.classList.remove('opacity-0');
+                    menuView.classList.add('opacity-100');
+                }, 10);
+            }, 300);
         }
 
-        // Initialize on page load
+        function selectThing(name) {
+            document.getElementById('menu-title').textContent = name;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         window.onload = loadAndProcessImage;
     </script>
 </body>
