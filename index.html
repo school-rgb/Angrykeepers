@@ -182,7 +182,6 @@
                     image: "https://github.com/school-rgb/Angrykeepers/blob/main/proxys%20images/Screenshot%202026-10-02%2011.25.05%20PM.png?raw=true",
                     links: [
                         "https://tung.sendreward.com"
-
                     ]
                 }
             ]
@@ -254,26 +253,27 @@
         const thresholdVal = 238;
         const featherVal = 1;
 
-        async function loadAndProcessImage() {
+        function loadAndProcessImage() {
             let img = new Image();
-            img.crossOrigin = "Anonymous";
-
-            try {
-                const response = await fetch(charUrl);
-                const blob = await response.blob();
-                const objectURL = URL.createObjectURL(blob);
-                img.src = objectURL;
-            } catch (err) {
-                img.src = charUrl;
-            }
+            img.crossOrigin = "anonymous";
 
             img.onload = () => {
                 canvas.width = img.naturalWidth || 600;
                 canvas.height = img.naturalHeight || 600;
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.drawImage(img, 0, 0);
-                processOuterFloodFill();
+                try {
+                    processOuterFloodFill();
+                } catch (e) {
+                    console.error("Flood fill processing skipped due to canvas restrictions:", e);
+                }
             };
+
+            img.onerror = () => {
+                console.error("Failed to load character image.");
+            };
+
+            img.src = charUrl;
         }
 
         function processOuterFloodFill() {
